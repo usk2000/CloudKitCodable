@@ -1,7 +1,5 @@
 # CloudKitEncryptable
 
-A description of this package.
-
 CloudKitEncryptable is built off of CloudKitCodable and provides a simple way to encrypt properties in your CKRecords. 
 
 The type whose properties you want to be encrypted in CloudKit should conform to `CloudKitEncryptable`, and you should list the coding keys that correspond to the properties you want encrypted in the static property `encryptedProperties`.
