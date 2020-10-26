@@ -1,37 +1,48 @@
 //
-//  CloudKitRecordDecoder.swift
+//  CloudKitEncryptedRecordDecoder.swift
 //  CloudKitCodable
 //
-//  Created by Guilherme Rambo on 12/05/18.
-//  Copyright © 2018 Guilherme Rambo. All rights reserved.
+//  Created by James Pacheco on 10/25/20.
+//  Copyright © 2020 Guilherme Rambo. All rights reserved.
 //
 
 import Foundation
 import CloudKit
+import CryptoKit
 
-final public class CloudKitRecordDecoder {
-    public func decode<T>(_ type: T.Type, from record: CKRecord) throws -> T where T : Decodable {
-        let decoder = _CloudKitRecordDecoder(record: record)
+final public class CloudKitEncryptedRecordDecoder {
+    private let key: SymmetricKey
+    
+    public func decode<T>(_ type: T.Type, from record: CKRecord) throws -> T where T : CloudKitEncryptable {
+        let decoder = _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: T.encryptedProperties)
         return try T(from: decoder)
     }
 
-    public init() { }
+    public init(key: SymmetricKey) {
+        self.key = key
+    }
 }
 
-final class _CloudKitRecordDecoder {
+final class _CloudKitEncryptedRecordDecoder {
+    private let key: SymmetricKey
+    
     var codingPath: [CodingKey] = []
 
     var userInfo: [CodingUserInfoKey : Any] = [:]
+    
+    let encryptedProperties: [CodingKey]
 
     var container: CloudKitRecordDecodingContainer?
     fileprivate var record: CKRecord
 
-    init(record: CKRecord) {
+    init(record: CKRecord, key: SymmetricKey, encryptedProperties: [CodingKey]) {
         self.record = record
+        self.key = key
+        self.encryptedProperties = encryptedProperties
     }
 }
 
-extension _CloudKitRecordDecoder: Decoder {
+extension _CloudKitEncryptedRecordDecoder: Decoder {
     fileprivate func assertCanCreateContainer() {
         precondition(self.container == nil)
     }
@@ -39,7 +50,7 @@ extension _CloudKitRecordDecoder: Decoder {
     func container<Key>(keyedBy type: Key.Type) -> KeyedDecodingContainer<Key> where Key : CodingKey {
         assertCanCreateContainer()
 
-        let container = KeyedContainer<Key>(record: self.record, codingPath: self.codingPath, userInfo: self.userInfo)
+        let container = KeyedContainer<Key>(record: self.record, codingPath: self.codingPath, userInfo: self.userInfo, key: key, encryptedProperties: encryptedProperties)
         self.container = container
 
         return KeyedDecodingContainer(container)
@@ -54,19 +65,14 @@ extension _CloudKitRecordDecoder: Decoder {
     }
 }
 
-protocol CloudKitRecordDecodingContainer: class {
-    var codingPath: [CodingKey] { get set }
-
-    var userInfo: [CodingUserInfoKey : Any] { get }
-
-    var record: CKRecord { get set }
-}
-
-extension _CloudKitRecordDecoder {
+extension _CloudKitEncryptedRecordDecoder {
     final class KeyedContainer<Key> where Key: CodingKey {
+        let encryptedProperties: [CodingKey]
         var record: CKRecord
         var codingPath: [CodingKey]
         var userInfo: [CodingUserInfoKey: Any]
+        let encryptor: EncryptorProtocol
+        let key: SymmetricKey
 
         private lazy var systemFieldsData: Data = {
             return decodeSystemFields()
@@ -76,10 +82,13 @@ extension _CloudKitRecordDecoder {
             return self.codingPath + [key]
         }
 
-        init(record: CKRecord, codingPath: [CodingKey], userInfo: [CodingUserInfoKey : Any]) {
+        init(record: CKRecord, codingPath: [CodingKey], userInfo: [CodingUserInfoKey : Any], key: SymmetricKey, encryptedProperties: [CodingKey]) {
             self.codingPath = codingPath
             self.userInfo = userInfo
             self.record = record
+            self.key = key
+            encryptor = Encryptor(key)
+            self.encryptedProperties = encryptedProperties
         }
 
         func checkCanDecodeValue(forKey key: Key) throws {
@@ -91,7 +100,7 @@ extension _CloudKitRecordDecoder {
     }
 }
 
-extension _CloudKitRecordDecoder.KeyedContainer: KeyedDecodingContainerProtocol {
+extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainerProtocol {
     var allKeys: [Key] {
         return self.record.allKeys().compactMap { Key(stringValue: $0) }
     }
@@ -124,7 +133,17 @@ extension _CloudKitRecordDecoder.KeyedContainer: KeyedDecodingContainerProtocol 
         if key.stringValue == _CKIdentifierKeyName {
             return record.recordID.recordName as! T
         }
-
+        
+        // Decode encrypted properties
+        if encryptedProperties.contains(where: { $0.stringValue == key.stringValue }) {
+            guard let data = record[key.stringValue] as? Data else {
+                let context = DecodingError.Context(codingPath: codingPath, debugDescription: "CKRecordValue was marked encrypted but wasn't of type Data")
+                throw DecodingError.typeMismatch(type, context)
+            }
+            
+            return try encryptor.decrypt(type, encrypted: data)
+        }
+        
         // Bools are encoded as Int64 in CloudKit
         if type == Bool.self {
             return try decodeBool(forKey: key) as! T
@@ -162,7 +181,7 @@ extension _CloudKitRecordDecoder.KeyedContainer: KeyedDecodingContainerProtocol 
     }
 
     private func decodeURL(from asset: CKAsset) -> URL {
-        return asset.fileURL
+        return asset.fileURL!
     }
 
     private func decodeBool(forKey key: Key) throws -> Bool {
@@ -175,13 +194,11 @@ extension _CloudKitRecordDecoder.KeyedContainer: KeyedDecodingContainerProtocol 
     }
 
     private func decodeSystemFields() -> Data {
-        let data = NSMutableData()
-        let coder = NSKeyedArchiver.init(forWritingWith: data)
-        coder.requiresSecureCoding = true
+        let coder = NSKeyedArchiver.init(requiringSecureCoding: true)
         record.encodeSystemFields(with: coder)
         coder.finishEncoding()
 
-        return data as Data
+        return coder.encodedData
     }
 
     func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
@@ -193,15 +210,15 @@ extension _CloudKitRecordDecoder.KeyedContainer: KeyedDecodingContainerProtocol 
     }
 
     func superDecoder() throws -> Decoder {
-        return _CloudKitRecordDecoder(record: record)
+        return _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: encryptedProperties)
     }
 
     func superDecoder(forKey key: Key) throws -> Decoder {
-        let decoder = _CloudKitRecordDecoder(record: self.record)
+        let decoder = _CloudKitEncryptedRecordDecoder(record: self.record, key: self.key, encryptedProperties: encryptedProperties)
         decoder.codingPath = [key]
 
         return decoder
     }
 }
 
-extension _CloudKitRecordDecoder.KeyedContainer: CloudKitRecordDecodingContainer {}
+extension _CloudKitEncryptedRecordDecoder.KeyedContainer: CloudKitRecordDecodingContainer {}

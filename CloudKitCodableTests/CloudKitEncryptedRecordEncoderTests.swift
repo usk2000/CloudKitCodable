@@ -1,28 +1,30 @@
 //
-//  CloudKitRecordEncoderTests.swift
-//  CloudKitRecordEncoderTests
+//  CloudKitEncryptedRecordEncoderTests.swift
+//  CloudKitCodableTests
 //
-//  Created by Guilherme Rambo on 11/05/18.
-//  Copyright © 2018 Guilherme Rambo. All rights reserved.
+//  Created by James Pacheco on 10/25/20.
+//  Copyright © 2020 Guilherme Rambo. All rights reserved.
 //
 
 import XCTest
 import CloudKit
+import CryptoKit
 @testable import CloudKitCodable
 
-final class CloudKitRecordEncoderTests: XCTestCase {
+class CloudKitEncryptedRecordEncoderTests: XCTestCase {
+    let key = SymmetricKey(size: .bits256)
 
     func testComplexPersonStructEncoding() throws {
-        let record = try CloudKitRecordEncoder().encode(Person.rambo)
+        let record = try CloudKitEncryptedRecordEncoder(key: key).encode(Person.rambo)
 
-        _validateRamboFields(in: record)
+        _validateEncryptedRamboFields(in: record, withKey: key)
     }
 
     func testCustomZoneIDEncoding() throws {
         let zoneID = CKRecordZone.ID(zoneName: "ABCDE", ownerName: CKCurrentUserDefaultName)
 
-        let record = try CloudKitRecordEncoder(zoneID: zoneID).encode(Person.rambo)
-        _validateRamboFields(in: record)
+        let record = try CloudKitEncryptedRecordEncoder(key: key, zoneID: zoneID).encode(Person.rambo)
+        _validateEncryptedRamboFields(in: record, withKey: key)
 
         XCTAssert(record.recordID.zoneID == zoneID)
     }
@@ -32,22 +34,21 @@ final class CloudKitRecordEncoderTests: XCTestCase {
 
         previouslySavedRambo.cloudKitSystemFields = CKRecord.systemFieldsDataForTesting
 
-        let record = try CloudKitRecordEncoder().encode(previouslySavedRambo)
+        let record = try CloudKitEncryptedRecordEncoder(key: key).encode(previouslySavedRambo)
 
         XCTAssertEqual(record.recordID.recordName, "RecordABCD")
         XCTAssertEqual(record.recordID.zoneID.zoneName, "ZoneABCD")
         XCTAssertEqual(record.recordID.zoneID.ownerName, "OwnerABCD")
 
-        _validateRamboFields(in: record)
+        _validateEncryptedRamboFields(in: record, withKey: key)
     }
 
     func testCustomRecordIdentifierEncoding() throws {
         let zoneID = CKRecordZone.ID(zoneName: "ABCDE", ownerName: CKCurrentUserDefaultName)
 
-        let record = try CloudKitRecordEncoder(zoneID: zoneID).encode(PersonWithCustomIdentifier.rambo)
+        let record = try CloudKitEncryptedRecordEncoder(key: key, zoneID: zoneID).encode(PersonWithCustomIdentifier.rambo)
 
         XCTAssert(record.recordID.zoneID == zoneID)
         XCTAssert(record.recordID.recordName == "MY-ID")
     }
-    
 }

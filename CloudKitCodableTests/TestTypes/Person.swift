@@ -9,7 +9,9 @@
 import Foundation
 import CloudKitCodable
 
-struct Person: CustomCloudKitCodable, Equatable {
+struct Person: CustomCloudKitCodable, CloudKitEncryptable, Equatable {
+    static var encryptedProperties: [CodingKey] = [Person.CodingKeys.name, Person.CodingKeys.age, Person.CodingKeys.website, Person.CodingKeys.isDeveloper]
+    
     var cloudKitSystemFields: Data?
     let name: String
     let age: Int
@@ -27,7 +29,9 @@ struct Person: CustomCloudKitCodable, Equatable {
     }
 }
 
-struct PersonWithCustomIdentifier: CustomCloudKitCodable {
+struct PersonWithCustomIdentifier: CustomCloudKitCodable, CloudKitEncryptable {
+    static var encryptedProperties: [CodingKey] = [PersonWithCustomIdentifier.CodingKeys.name]
+    
     var cloudKitSystemFields: Data?
     var cloudKitIdentifier: String
     let name: String
