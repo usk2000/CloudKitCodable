@@ -65,17 +65,17 @@ enum EncryptionError: Error {
     case couldNotConvertValueToData
 }
 
-protocol DataRepresentable {
+public protocol DataRepresentable {
     func data() throws -> Data
     init(data: Data) throws
 }
 
 extension URL: DataRepresentable {
-    func data() throws -> Data {
+    public func data() throws -> Data {
         return self.absoluteString.data(using: .utf8) ?? Data()
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         guard let absoluteString = String(data: data, encoding: .utf8),
               let url = URL(string: absoluteString) else {
             throw DecryptionError.dataNotInitializedAsRequestedType(data)
@@ -86,7 +86,7 @@ extension URL: DataRepresentable {
 }
 
 extension String: DataRepresentable {
-    func data() throws -> Data {
+    public func data() throws -> Data {
         guard let data = self.data(using: .utf8) else {
             throw EncryptionError.couldNotConvertValueToData
         }
@@ -94,7 +94,7 @@ extension String: DataRepresentable {
         return data
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         guard let string = String(data: data, encoding: .utf8) else {
             throw DecryptionError.dataNotInitializedAsRequestedType(data)
         }
@@ -104,11 +104,11 @@ extension String: DataRepresentable {
 }
 
 extension Bool: DataRepresentable {
-    func data() throws -> Data {
+    public func data() throws -> Data {
         return try String(self).data()
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         let string = try String(data: data)
         guard let x = Bool(string) else {
             throw DecryptionError.dataNotInitializedAsRequestedType(data)
@@ -119,11 +119,11 @@ extension Bool: DataRepresentable {
 }
 
 extension Int: DataRepresentable {
-    func data() throws -> Data {
+    public func data() throws -> Data {
         return try String(self).data()
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         let string = try String(data: data)
         guard let x = Int(string) else {
             throw DecryptionError.dataNotInitializedAsRequestedType(data)
@@ -134,11 +134,11 @@ extension Int: DataRepresentable {
 }
 
 extension Double: DataRepresentable {
-    func data() throws -> Data {
+    public func data() throws -> Data {
         return try String(self).data()
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         let string = try String(data: data)
         guard let x = Self.init(string) else {
             throw DecryptionError.dataNotInitializedAsRequestedType(data)
@@ -149,11 +149,11 @@ extension Double: DataRepresentable {
 }
 
 extension Date: DataRepresentable {
-    func data() throws -> Data {
+    public func data() throws -> Data {
         return try self.timeIntervalSinceReferenceDate.data()
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         let timeSinceReference = try Double(data: data)
         self = Self.init(timeIntervalSinceReferenceDate: timeSinceReference)
     }

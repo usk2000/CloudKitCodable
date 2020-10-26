@@ -11,30 +11,20 @@
 		02DF660820D1772900A20812 /* CloudKitCodable_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 02DF65FA20D1772900A20812 /* CloudKitCodable_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02DF660F20D1774300A20812 /* Rambo.ckrecord in Resources */ = {isa = PBXBuildFile; fileRef = DD7FD01D20A72BE000F5778D /* Rambo.ckrecord */; };
 		02DF661020D1774300A20812 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCD637320A655E500CDB5B2 /* Person.swift */; };
-		02DF661120D1774300A20812 /* CloudKitRecordEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCD636120A6532D00CDB5B2 /* CloudKitRecordEncoderTests.swift */; };
-		02DF661220D1774300A20812 /* CloudKitRecordDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7FCFF920A725CF00F5778D /* CloudKitRecordDecoderTests.swift */; };
-		02DF661320D1774300A20812 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7FCFFB20A7261D00F5778D /* TestUtils.swift */; };
-		1A482FD02546569E001216A1 /* CloudKitEncryptedRecordEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A482FCF2546569E001216A1 /* CloudKitEncryptedRecordEncoderTests.swift */; };
-		1A482FD6254656B0001216A1 /* CloudKitEncryptedRecordDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A482FD5254656B0001216A1 /* CloudKitEncryptedRecordDecoderTests.swift */; };
-		1A4830222546A191001216A1 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301B2546A191001216A1 /* Encryptor.swift */; };
-		1A4830232546A191001216A1 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301B2546A191001216A1 /* Encryptor.swift */; };
-		1A4830242546A191001216A1 /* CloudKitRecordDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301C2546A191001216A1 /* CloudKitRecordDecoder.swift */; };
-		1A4830252546A191001216A1 /* CloudKitRecordDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301C2546A191001216A1 /* CloudKitRecordDecoder.swift */; };
-		1A4830262546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301D2546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift */; };
-		1A4830272546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301D2546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift */; };
-		1A4830282546A191001216A1 /* CloudKitEncryptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301E2546A191001216A1 /* CloudKitEncryptable.swift */; };
-		1A4830292546A191001216A1 /* CloudKitEncryptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301E2546A191001216A1 /* CloudKitEncryptable.swift */; };
-		1A48302A2546A191001216A1 /* CustomCloudKitEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301F2546A191001216A1 /* CustomCloudKitEncodable.swift */; };
-		1A48302B2546A191001216A1 /* CustomCloudKitEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48301F2546A191001216A1 /* CustomCloudKitEncodable.swift */; };
-		1A48302C2546A191001216A1 /* CloudKitRecordEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4830202546A191001216A1 /* CloudKitRecordEncoder.swift */; };
-		1A48302D2546A191001216A1 /* CloudKitRecordEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4830202546A191001216A1 /* CloudKitRecordEncoder.swift */; };
-		1A48302E2546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4830212546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift */; };
-		1A48302F2546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4830212546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift */; };
-		DD7FCFFA20A725CF00F5778D /* CloudKitRecordDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7FCFF920A725CF00F5778D /* CloudKitRecordDecoderTests.swift */; };
-		DD7FCFFC20A7261D00F5778D /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7FCFFB20A7261D00F5778D /* TestUtils.swift */; };
+		1A382FF6254732E600387098 /* CloudKitEncryptedRecordEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A382FEF254732E600387098 /* CloudKitEncryptedRecordEncoder.swift */; };
+		1A382FF8254732E600387098 /* CloudKitEncryptedRecordDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A382FF1254732E600387098 /* CloudKitEncryptedRecordDecoder.swift */; };
+		1A382FF9254732E600387098 /* CloudKitRecordEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A382FF2254732E600387098 /* CloudKitRecordEncoder.swift */; };
+		1A382FFA254732E600387098 /* CloudKitRecordDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A382FF3254732E600387098 /* CloudKitRecordDecoder.swift */; };
+		1A382FFB254732E600387098 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A382FF4254732E600387098 /* Encryptor.swift */; };
+		1A382FFC254732E600387098 /* CustomCloudKitEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A382FF5254732E600387098 /* CustomCloudKitEncodable.swift */; };
+		1A3830122547335000387098 /* CloudKitRecordEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38300D2547335000387098 /* CloudKitRecordEncoderTests.swift */; };
+		1A3830132547335000387098 /* CloudKitEncryptedRecordEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38300E2547335000387098 /* CloudKitEncryptedRecordEncoderTests.swift */; };
+		1A3830142547335000387098 /* CloudKitEncryptedRecordDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38300F2547335000387098 /* CloudKitEncryptedRecordDecoderTests.swift */; };
+		1A3830152547335000387098 /* CloudKitRecordDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3830102547335000387098 /* CloudKitRecordDecoderTests.swift */; };
+		1A3830162547335000387098 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3830112547335000387098 /* TestUtils.swift */; };
+		1A383020254733A200387098 /* CloudKitEncryptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38301F254733A200387098 /* CloudKitEncryptable.swift */; };
 		DD7FD01E20A72BE000F5778D /* Rambo.ckrecord in Resources */ = {isa = PBXBuildFile; fileRef = DD7FD01D20A72BE000F5778D /* Rambo.ckrecord */; };
 		DDCD635D20A6532D00CDB5B2 /* CloudKitCodable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCD635320A6532D00CDB5B2 /* CloudKitCodable.framework */; };
-		DDCD636220A6532D00CDB5B2 /* CloudKitRecordEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCD636120A6532D00CDB5B2 /* CloudKitRecordEncoderTests.swift */; };
 		DDCD636420A6532D00CDB5B2 /* CloudKitCodable.h in Headers */ = {isa = PBXBuildFile; fileRef = DDCD635620A6532D00CDB5B2 /* CloudKitCodable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDCD637420A655E500CDB5B2 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCD637320A655E500CDB5B2 /* Person.swift */; };
 /* End PBXBuildFile section */
@@ -62,24 +52,24 @@
 		02DF65FB20D1772900A20812 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		02DF660020D1772900A20812 /* CloudKitCodable-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CloudKitCodable-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02DF660720D1772900A20812 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1A482FCF2546569E001216A1 /* CloudKitEncryptedRecordEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitEncryptedRecordEncoderTests.swift; sourceTree = "<group>"; };
-		1A482FD5254656B0001216A1 /* CloudKitEncryptedRecordDecoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitEncryptedRecordDecoderTests.swift; sourceTree = "<group>"; };
-		1A482FED2546A103001216A1 /* CloudKitEncryptable */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CloudKitEncryptable; sourceTree = "<group>"; };
-		1A48301B2546A191001216A1 /* Encryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Encryptor.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/Encryptor.swift; sourceTree = SOURCE_ROOT; };
-		1A48301C2546A191001216A1 /* CloudKitRecordDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitRecordDecoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitRecordDecoder.swift; sourceTree = SOURCE_ROOT; };
-		1A48301D2546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptedRecordDecoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitEncryptedRecordDecoder.swift; sourceTree = SOURCE_ROOT; };
-		1A48301E2546A191001216A1 /* CloudKitEncryptable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptable.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitEncryptable.swift; sourceTree = SOURCE_ROOT; };
-		1A48301F2546A191001216A1 /* CustomCloudKitEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomCloudKitEncodable.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CustomCloudKitEncodable.swift; sourceTree = SOURCE_ROOT; };
-		1A4830202546A191001216A1 /* CloudKitRecordEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitRecordEncoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitRecordEncoder.swift; sourceTree = SOURCE_ROOT; };
-		1A4830212546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptedRecordEncoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitEncryptedRecordEncoder.swift; sourceTree = SOURCE_ROOT; };
-		DD7FCFF920A725CF00F5778D /* CloudKitRecordDecoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitRecordDecoderTests.swift; sourceTree = "<group>"; };
-		DD7FCFFB20A7261D00F5778D /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
+		1A382FDE254732A700387098 /* CloudKitEncryptable */ = {isa = PBXFileReference; lastKnownFileType = text; path = CloudKitEncryptable; sourceTree = SOURCE_ROOT; };
+		1A382FEF254732E600387098 /* CloudKitEncryptedRecordEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptedRecordEncoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitEncryptedRecordEncoder.swift; sourceTree = SOURCE_ROOT; };
+		1A382FF1254732E600387098 /* CloudKitEncryptedRecordDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptedRecordDecoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitEncryptedRecordDecoder.swift; sourceTree = SOURCE_ROOT; };
+		1A382FF2254732E600387098 /* CloudKitRecordEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitRecordEncoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitRecordEncoder.swift; sourceTree = SOURCE_ROOT; };
+		1A382FF3254732E600387098 /* CloudKitRecordDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitRecordDecoder.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitRecordDecoder.swift; sourceTree = SOURCE_ROOT; };
+		1A382FF4254732E600387098 /* Encryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Encryptor.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/Encryptor.swift; sourceTree = SOURCE_ROOT; };
+		1A382FF5254732E600387098 /* CustomCloudKitEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomCloudKitEncodable.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CustomCloudKitEncodable.swift; sourceTree = SOURCE_ROOT; };
+		1A38300D2547335000387098 /* CloudKitRecordEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitRecordEncoderTests.swift; path = CloudKitEncryptable/Tests/CloudKitEncryptableTests/CloudKitRecordEncoderTests.swift; sourceTree = SOURCE_ROOT; };
+		1A38300E2547335000387098 /* CloudKitEncryptedRecordEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptedRecordEncoderTests.swift; path = CloudKitEncryptable/Tests/CloudKitEncryptableTests/CloudKitEncryptedRecordEncoderTests.swift; sourceTree = SOURCE_ROOT; };
+		1A38300F2547335000387098 /* CloudKitEncryptedRecordDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptedRecordDecoderTests.swift; path = CloudKitEncryptable/Tests/CloudKitEncryptableTests/CloudKitEncryptedRecordDecoderTests.swift; sourceTree = SOURCE_ROOT; };
+		1A3830102547335000387098 /* CloudKitRecordDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitRecordDecoderTests.swift; path = CloudKitEncryptable/Tests/CloudKitEncryptableTests/CloudKitRecordDecoderTests.swift; sourceTree = SOURCE_ROOT; };
+		1A3830112547335000387098 /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestUtils.swift; path = CloudKitEncryptable/Tests/CloudKitEncryptableTests/TestUtils.swift; sourceTree = SOURCE_ROOT; };
+		1A38301F254733A200387098 /* CloudKitEncryptable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptable.swift; path = CloudKitEncryptable/Sources/CloudKitEncryptable/CloudKitEncryptable.swift; sourceTree = SOURCE_ROOT; };
 		DD7FD01D20A72BE000F5778D /* Rambo.ckrecord */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Rambo.ckrecord; sourceTree = "<group>"; };
 		DDCD635320A6532D00CDB5B2 /* CloudKitCodable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudKitCodable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDCD635620A6532D00CDB5B2 /* CloudKitCodable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudKitCodable.h; sourceTree = "<group>"; };
 		DDCD635720A6532D00CDB5B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDCD635C20A6532D00CDB5B2 /* CloudKitCodableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudKitCodableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDCD636120A6532D00CDB5B2 /* CloudKitRecordEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitRecordEncoderTests.swift; sourceTree = "<group>"; };
 		DDCD636320A6532D00CDB5B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDCD637320A655E500CDB5B2 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,7 +136,7 @@
 		DDCD634920A6532D00CDB5B2 = {
 			isa = PBXGroup;
 			children = (
-				1A482FED2546A103001216A1 /* CloudKitEncryptable */,
+				1A382FDE254732A700387098 /* CloudKitEncryptable */,
 				DDCD635520A6532D00CDB5B2 /* CloudKitCodable */,
 				DDCD636020A6532D00CDB5B2 /* CloudKitCodableTests */,
 				02DF65F920D1772900A20812 /* CloudKitCodable-iOS */,
@@ -169,7 +159,13 @@
 		DDCD635520A6532D00CDB5B2 /* CloudKitCodable */ = {
 			isa = PBXGroup;
 			children = (
-				DDCD636D20A6533200CDB5B2 /* Source */,
+				1A38301F254733A200387098 /* CloudKitEncryptable.swift */,
+				1A382FF1254732E600387098 /* CloudKitEncryptedRecordDecoder.swift */,
+				1A382FEF254732E600387098 /* CloudKitEncryptedRecordEncoder.swift */,
+				1A382FF3254732E600387098 /* CloudKitRecordDecoder.swift */,
+				1A382FF2254732E600387098 /* CloudKitRecordEncoder.swift */,
+				1A382FF5254732E600387098 /* CustomCloudKitEncodable.swift */,
+				1A382FF4254732E600387098 /* Encryptor.swift */,
 				DDCD635620A6532D00CDB5B2 /* CloudKitCodable.h */,
 				DDCD635720A6532D00CDB5B2 /* Info.plist */,
 			);
@@ -179,30 +175,16 @@
 		DDCD636020A6532D00CDB5B2 /* CloudKitCodableTests */ = {
 			isa = PBXGroup;
 			children = (
+				1A38300F2547335000387098 /* CloudKitEncryptedRecordDecoderTests.swift */,
+				1A38300E2547335000387098 /* CloudKitEncryptedRecordEncoderTests.swift */,
+				1A3830102547335000387098 /* CloudKitRecordDecoderTests.swift */,
+				1A38300D2547335000387098 /* CloudKitRecordEncoderTests.swift */,
+				1A3830112547335000387098 /* TestUtils.swift */,
 				DD7FD01C20A72BD700F5778D /* Fixtures */,
 				DDCD637220A655D500CDB5B2 /* TestTypes */,
-				DDCD636120A6532D00CDB5B2 /* CloudKitRecordEncoderTests.swift */,
-				DD7FCFF920A725CF00F5778D /* CloudKitRecordDecoderTests.swift */,
-				1A482FCF2546569E001216A1 /* CloudKitEncryptedRecordEncoderTests.swift */,
-				1A482FD5254656B0001216A1 /* CloudKitEncryptedRecordDecoderTests.swift */,
-				DD7FCFFB20A7261D00F5778D /* TestUtils.swift */,
 				DDCD636320A6532D00CDB5B2 /* Info.plist */,
 			);
 			path = CloudKitCodableTests;
-			sourceTree = "<group>";
-		};
-		DDCD636D20A6533200CDB5B2 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				1A48301E2546A191001216A1 /* CloudKitEncryptable.swift */,
-				1A48301D2546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift */,
-				1A4830212546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift */,
-				1A48301C2546A191001216A1 /* CloudKitRecordDecoder.swift */,
-				1A4830202546A191001216A1 /* CloudKitRecordEncoder.swift */,
-				1A48301F2546A191001216A1 /* CustomCloudKitEncodable.swift */,
-				1A48301B2546A191001216A1 /* Encryptor.swift */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		DDCD637220A655D500CDB5B2 /* TestTypes */ = {
@@ -393,13 +375,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A4830292546A191001216A1 /* CloudKitEncryptable.swift in Sources */,
-				1A48302F2546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift in Sources */,
-				1A4830252546A191001216A1 /* CloudKitRecordDecoder.swift in Sources */,
-				1A48302D2546A191001216A1 /* CloudKitRecordEncoder.swift in Sources */,
-				1A48302B2546A191001216A1 /* CustomCloudKitEncodable.swift in Sources */,
-				1A4830232546A191001216A1 /* Encryptor.swift in Sources */,
-				1A4830272546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,10 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02DF661220D1774300A20812 /* CloudKitRecordDecoderTests.swift in Sources */,
 				02DF661020D1774300A20812 /* Person.swift in Sources */,
-				02DF661320D1774300A20812 /* TestUtils.swift in Sources */,
-				02DF661120D1774300A20812 /* CloudKitRecordEncoderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,13 +390,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A4830282546A191001216A1 /* CloudKitEncryptable.swift in Sources */,
-				1A48302E2546A191001216A1 /* CloudKitEncryptedRecordEncoder.swift in Sources */,
-				1A4830242546A191001216A1 /* CloudKitRecordDecoder.swift in Sources */,
-				1A48302C2546A191001216A1 /* CloudKitRecordEncoder.swift in Sources */,
-				1A48302A2546A191001216A1 /* CustomCloudKitEncodable.swift in Sources */,
-				1A4830222546A191001216A1 /* Encryptor.swift in Sources */,
-				1A4830262546A191001216A1 /* CloudKitEncryptedRecordDecoder.swift in Sources */,
+				1A383020254733A200387098 /* CloudKitEncryptable.swift in Sources */,
+				1A382FF9254732E600387098 /* CloudKitRecordEncoder.swift in Sources */,
+				1A382FFA254732E600387098 /* CloudKitRecordDecoder.swift in Sources */,
+				1A382FFC254732E600387098 /* CustomCloudKitEncodable.swift in Sources */,
+				1A382FF6254732E600387098 /* CloudKitEncryptedRecordEncoder.swift in Sources */,
+				1A382FFB254732E600387098 /* Encryptor.swift in Sources */,
+				1A382FF8254732E600387098 /* CloudKitEncryptedRecordDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,12 +404,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A482FD02546569E001216A1 /* CloudKitEncryptedRecordEncoderTests.swift in Sources */,
-				DD7FCFFA20A725CF00F5778D /* CloudKitRecordDecoderTests.swift in Sources */,
+				1A3830132547335000387098 /* CloudKitEncryptedRecordEncoderTests.swift in Sources */,
+				1A3830162547335000387098 /* TestUtils.swift in Sources */,
+				1A3830152547335000387098 /* CloudKitRecordDecoderTests.swift in Sources */,
+				1A3830142547335000387098 /* CloudKitEncryptedRecordDecoderTests.swift in Sources */,
+				1A3830122547335000387098 /* CloudKitRecordEncoderTests.swift in Sources */,
 				DDCD637420A655E500CDB5B2 /* Person.swift in Sources */,
-				1A482FD6254656B0001216A1 /* CloudKitEncryptedRecordDecoderTests.swift in Sources */,
-				DD7FCFFC20A7261D00F5778D /* TestUtils.swift in Sources */,
-				DDCD636220A6532D00CDB5B2 /* CloudKitRecordEncoderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,7 +488,6 @@
 		02DF660B20D1772900A20812 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "CloudKitCodable-iOSTests/Info.plist";
@@ -537,7 +508,6 @@
 		02DF660C20D1772900A20812 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "CloudKitCodable-iOSTests/Info.plist";
