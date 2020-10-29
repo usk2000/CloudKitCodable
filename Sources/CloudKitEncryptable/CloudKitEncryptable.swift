@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol CloudKitEncryptable: Codable {
+public protocol CloudKitEncryptable: CustomCloudKitCodable {
     static var encryptedProperties: [CodingKey] { get }
 }
