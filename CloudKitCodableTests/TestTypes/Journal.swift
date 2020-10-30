@@ -31,7 +31,7 @@ extension Journal: CloudKitEncryptable {
         return nil
     }
     
-    var cloudKitRecordType: String {
+    static var cloudKitRecordType: String {
         return "Journal"
     }
 }

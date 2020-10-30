@@ -14,13 +14,13 @@ internal let _CKIdentifierKeyName = "cloudKitIdentifier"
 
 public protocol CloudKitRecordRepresentable {
     var cloudKitSystemFields: Data? { get }
-    var cloudKitRecordType: String { get }
+    static var cloudKitRecordType: String { get }
     var cloudKitIdentifier: String { get }
 }
 
 extension CloudKitRecordRepresentable {
-    public var cloudKitRecordType: String {
-        return String(describing: type(of: self))
+    public static var cloudKitRecordType: String {
+        return String(describing: self)
     }
 
     public var cloudKitIdentifier: String {

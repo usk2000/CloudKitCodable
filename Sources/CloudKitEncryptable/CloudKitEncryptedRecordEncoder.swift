@@ -51,7 +51,7 @@ public class CloudKitEncryptedRecordEncoder {
 
     private func recordTypeName(for value: Encodable) -> String {
         if let customValue = value as? CustomCloudKitEncodable {
-            return customValue.cloudKitRecordType
+            return type(of: customValue).cloudKitRecordType
         } else {
             return String(describing: type(of: value))
         }
