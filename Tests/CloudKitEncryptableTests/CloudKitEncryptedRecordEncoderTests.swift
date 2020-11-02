@@ -51,4 +51,13 @@ class CloudKitEncryptedRecordEncoderTests: XCTestCase {
         XCTAssert(record.recordID.zoneID == zoneID)
         XCTAssert(record.recordID.recordName == "MY-ID")
     }
+    
+    func testEncoderSkipsReferences() throws {
+        let stuff = Stuff(title: "Test", journal: testJournal)
+        
+        let record = try CloudKitEncryptedRecordEncoder(key: key).encode(stuff)
+        
+        XCTAssertNil(record["journal"])
+        XCTAssertNotNil(record["title"])
+    }
 }

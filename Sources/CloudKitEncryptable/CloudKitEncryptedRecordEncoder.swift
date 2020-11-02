@@ -178,6 +178,10 @@ extension _CloudKitEncryptedRecordEncoder.KeyedContainer: KeyedEncodingContainer
 
             return
         }
+        
+        guard !(value is CustomCloudKitEncodable) else {
+            return
+        }
 
         storage[key.stringValue] = try produceCloudKitValue(for: value, withKey: key)
     }
