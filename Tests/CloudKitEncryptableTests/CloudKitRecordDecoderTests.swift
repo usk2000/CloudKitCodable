@@ -52,5 +52,4 @@ final class CloudKitRecordDecoderTests: XCTestCase {
         let samePersonDecoded = try CloudKitRecordDecoder().decode(PersonWithCustomIdentifier.self, from: record)
         XCTAssert(samePersonDecoded.cloudKitIdentifier == "MY-ID")
     }
-
 }

@@ -65,12 +65,17 @@ class CloudKitEncryptedRecordDecoderTests: XCTestCase {
         
         XCTAssert(samePersonDecoded.cloudKitIdentifier == "MY-ID")
     }
-
-    func testDecodeEncryptedJSON() throws {
-        let record = try CloudKitEncryptedRecordEncoder(key: key).encode(testJournal)
+    
+    func testDecoderIncorporatesKeyOverrides() throws {
+        let stuff = Stuff(title: "Test", journal: testJournal)
         
-        let journalDecoded = try CloudKitEncryptedRecordDecoder(key: key).decode(Journal.self, from: record)
+        let record = try CloudKitEncryptedRecordEncoder(key: key).encode(stuff)
         
-        XCTAssertEqual(journalDecoded.owner, testJournal.owner)
+        let decoder = CloudKitEncryptedRecordDecoder(key: key)
+        let overrides = ["journal": testJournal]
+        
+        let decodedStuff = try decoder.decode(Stuff.self, from: record, keyOverrides: overrides)
+        
+        XCTAssertEqual(decodedStuff.journal, testJournal)
     }
 }

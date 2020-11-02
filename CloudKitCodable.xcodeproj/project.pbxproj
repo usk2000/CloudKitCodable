@@ -26,7 +26,6 @@
 		1AA02B46254B5240006780F4 /* CloudKitRecordDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02B3F254B5240006780F4 /* CloudKitRecordDecoder.swift */; };
 		1AA02B53254B8308006780F4 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02B52254B8308006780F4 /* Journal.swift */; };
 		1AA02B5C254B8417006780F4 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02B52254B8308006780F4 /* Journal.swift */; };
-		1AA02B62254B84CE006780F4 /* DataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA02B61254B84CE006780F4 /* DataRepresentable.swift */; };
 		DD7FD01E20A72BE000F5778D /* Rambo.ckrecord in Resources */ = {isa = PBXBuildFile; fileRef = DD7FD01D20A72BE000F5778D /* Rambo.ckrecord */; };
 		DDCD635D20A6532D00CDB5B2 /* CloudKitCodable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCD635320A6532D00CDB5B2 /* CloudKitCodable.framework */; };
 		DDCD636420A6532D00CDB5B2 /* CloudKitCodable.h in Headers */ = {isa = PBXBuildFile; fileRef = DDCD635620A6532D00CDB5B2 /* CloudKitCodable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,7 +70,6 @@
 		1AA02B3E254B5240006780F4 /* CloudKitEncryptedRecordDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitEncryptedRecordDecoder.swift; path = Sources/CloudKitEncryptable/CloudKitEncryptedRecordDecoder.swift; sourceTree = SOURCE_ROOT; };
 		1AA02B3F254B5240006780F4 /* CloudKitRecordDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudKitRecordDecoder.swift; path = Sources/CloudKitEncryptable/CloudKitRecordDecoder.swift; sourceTree = SOURCE_ROOT; };
 		1AA02B52254B8308006780F4 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
-		1AA02B61254B84CE006780F4 /* DataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DataRepresentable.swift; path = Sources/CloudKitEncryptable/DataRepresentable.swift; sourceTree = SOURCE_ROOT; };
 		DD7FD01D20A72BE000F5778D /* Rambo.ckrecord */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Rambo.ckrecord; sourceTree = "<group>"; };
 		DDCD635320A6532D00CDB5B2 /* CloudKitCodable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudKitCodable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDCD635620A6532D00CDB5B2 /* CloudKitCodable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudKitCodable.h; sourceTree = "<group>"; };
@@ -173,7 +171,6 @@
 				1AA02B3B254B5240006780F4 /* CloudKitRecordEncoder.swift */,
 				1AA02B3A254B5240006780F4 /* CustomCloudKitEncodable.swift */,
 				1AA02B3D254B5240006780F4 /* Encryptor.swift */,
-				1AA02B61254B84CE006780F4 /* DataRepresentable.swift */,
 				DDCD635620A6532D00CDB5B2 /* CloudKitCodable.h */,
 				DDCD635720A6532D00CDB5B2 /* Info.plist */,
 			);
@@ -401,7 +398,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AA02B62254B84CE006780F4 /* DataRepresentable.swift in Sources */,
 				1AA02B43254B5240006780F4 /* CloudKitEncryptable.swift in Sources */,
 				1AA02B46254B5240006780F4 /* CloudKitRecordDecoder.swift in Sources */,
 				1AA02B40254B5240006780F4 /* CloudKitEncryptedRecordEncoder.swift in Sources */,

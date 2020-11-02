@@ -13,8 +13,8 @@ import CryptoKit
 final public class CloudKitEncryptedRecordDecoder {
     private let key: SymmetricKey
     
-    public func decode<T>(_ type: T.Type, from record: CKRecord) throws -> T where T : CloudKitEncryptable {
-        let decoder = _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: T.encryptedProperties)
+    public func decode<T>(_ type: T.Type, from record: CKRecord, keyOverrides: [String: Any] = [:]) throws -> T where T : CloudKitEncryptable {
+        let decoder = _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: T.encryptedProperties, keyOverrides: keyOverrides)
         return try T(from: decoder)
     }
 
@@ -34,11 +34,13 @@ final class _CloudKitEncryptedRecordDecoder {
 
     var container: CloudKitRecordDecodingContainer?
     fileprivate var record: CKRecord
+    fileprivate let keyOverrides: [String: Any]
 
-    init(record: CKRecord, key: SymmetricKey, encryptedProperties: [CodingKey]) {
+    init(record: CKRecord, key: SymmetricKey, encryptedProperties: [CodingKey], keyOverrides: [String: Any]) {
         self.record = record
         self.key = key
         self.encryptedProperties = encryptedProperties
+        self.keyOverrides = keyOverrides
     }
 }
 
@@ -50,7 +52,7 @@ extension _CloudKitEncryptedRecordDecoder: Decoder {
     func container<Key>(keyedBy type: Key.Type) -> KeyedDecodingContainer<Key> where Key : CodingKey {
         assertCanCreateContainer()
 
-        let container = KeyedContainer<Key>(record: self.record, codingPath: self.codingPath, userInfo: self.userInfo, key: key, encryptedProperties: encryptedProperties)
+        let container = KeyedContainer<Key>(record: self.record, codingPath: self.codingPath, userInfo: self.userInfo, key: key, encryptedProperties: encryptedProperties, keyOverrides: keyOverrides)
         self.container = container
 
         return KeyedDecodingContainer(container)
@@ -73,6 +75,7 @@ extension _CloudKitEncryptedRecordDecoder {
         var userInfo: [CodingUserInfoKey: Any]
         let encryptor: EncryptorProtocol
         let key: SymmetricKey
+        let keyOverrides: [String: Any]
 
         private lazy var systemFieldsData: Data = {
             return decodeSystemFields()
@@ -82,13 +85,14 @@ extension _CloudKitEncryptedRecordDecoder {
             return self.codingPath + [key]
         }
 
-        init(record: CKRecord, codingPath: [CodingKey], userInfo: [CodingUserInfoKey : Any], key: SymmetricKey, encryptedProperties: [CodingKey]) {
+        init(record: CKRecord, codingPath: [CodingKey], userInfo: [CodingUserInfoKey : Any], key: SymmetricKey, encryptedProperties: [CodingKey], keyOverrides: [String: Any]) {
             self.codingPath = codingPath
             self.userInfo = userInfo
             self.record = record
             self.key = key
             encryptor = Encryptor(key)
             self.encryptedProperties = encryptedProperties
+            self.keyOverrides = keyOverrides
         }
 
         func checkCanDecodeValue(forKey key: Key) throws {
@@ -108,7 +112,11 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
     func contains(_ key: Key) -> Bool {
         guard key.stringValue != _CKSystemFieldsKeyName else { return true }
 
-        return allKeys.contains(where: { $0.stringValue == key.stringValue })
+        if allKeys.contains(where: { $0.stringValue == key.stringValue }) {
+            return true
+        } else {
+            return keyOverrides.contains(where: { $0.key == key.stringValue })
+        }
     }
 
     func decodeNil(forKey key: Key) throws -> Bool {
@@ -123,8 +131,15 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
 
     func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
         try checkCanDecodeValue(forKey: key)
-
-        print("decode key: \(key.stringValue)")
+        
+        if let override = keyOverrides[key.stringValue] {
+            guard let override = override as? T else {
+                let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Override provided for key \(key) does not match provided type")
+                throw DecodingError.typeMismatch(type, context)
+            }
+            
+            return override
+        }
 
         if key.stringValue == _CKSystemFieldsKeyName {
             return systemFieldsData as! T
@@ -210,11 +225,11 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
     }
 
     func superDecoder() throws -> Decoder {
-        return _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: encryptedProperties)
+        return _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: encryptedProperties, keyOverrides: keyOverrides)
     }
 
     func superDecoder(forKey key: Key) throws -> Decoder {
-        let decoder = _CloudKitEncryptedRecordDecoder(record: self.record, key: self.key, encryptedProperties: encryptedProperties)
+        let decoder = _CloudKitEncryptedRecordDecoder(record: self.record, key: self.key, encryptedProperties: encryptedProperties, keyOverrides: keyOverrides)
         decoder.codingPath = [key]
 
         return decoder

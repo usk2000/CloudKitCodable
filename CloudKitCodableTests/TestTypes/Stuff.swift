@@ -9,7 +9,7 @@
 import Foundation
 import CloudKitCodable
 
-struct Stuff: CloudKitEncryptable {
+struct Stuff: CloudKitEncryptable, Equatable {
     static var encryptedProperties: [CodingKey] {
         return [Stuff.CodingKeys.title]
     }

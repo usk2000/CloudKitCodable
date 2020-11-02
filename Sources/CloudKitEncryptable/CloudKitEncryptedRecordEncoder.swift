@@ -188,11 +188,7 @@ extension _CloudKitEncryptedRecordEncoder.KeyedContainer: KeyedEncodingContainer
 
     private func produceCloudKitValue<T>(for value: T, withKey key: Key) throws -> CKRecordValue where T : Encodable {
         if encryptedProperties.contains(where: { $0.stringValue == key.stringValue }) {
-            guard let encryptable = value as? DataRepresentable else {
-                throw CloudKitEncryptedRecordEncodingError.encryptableValueNotDataRepresentable
-            }
-            
-            return try encryptor.encrypt(encryptable) as CKRecordValue
+            return try encryptor.encrypt(value) as CKRecordValue
         } else if let urlValue = value as? URL {
             return try produceCloudKitValue(for: urlValue)
         } else if value is CustomCloudKitEncodable {

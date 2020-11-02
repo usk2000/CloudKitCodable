@@ -9,7 +9,7 @@
 import Foundation
 @testable import CloudKitCodable
 
-struct Journal {
+struct Journal: Equatable {
     var text: String
     var owner: User
     var id: String = UUID().uuidString
@@ -36,7 +36,7 @@ extension Journal: CloudKitEncryptable {
     }
 }
 
-struct User: Codable, Equatable, DataRepresentable {
+struct User: Codable, Equatable {
     var name: String
 }
 
