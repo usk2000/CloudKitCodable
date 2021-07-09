@@ -6,8 +6,8 @@
 //  Copyright © 2018 Guilherme Rambo. All rights reserved.
 //
 
-import Foundation
 import CloudKit
+import Foundation
 
 internal let _CKSystemFieldsKeyName = "cloudKitSystemFields"
 internal let _CKIdentifierKeyName = "cloudKitIdentifier"
@@ -36,4 +36,4 @@ public protocol CustomCloudKitDecodable: CloudKitRecordRepresentable & Decodable
 
 }
 
-public protocol CustomCloudKitCodable: CustomCloudKitEncodable & CustomCloudKitDecodable { }
+public protocol CustomCloudKitCodable: CustomCloudKitEncodable & CustomCloudKitDecodable {}

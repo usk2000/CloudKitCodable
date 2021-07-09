@@ -6,8 +6,8 @@
 //  Copyright © 2020 Guilherme Rambo. All rights reserved.
 //
 
-import Foundation
 import CryptoKit
+import Foundation
 
 protocol EncryptorProtocol {
     func encrypt<T: Encodable>(_ decrypted: T) throws -> Data
@@ -28,7 +28,7 @@ class Encryptor: EncryptorProtocol {
     func decrypt<T: Decodable>(_ type: T.Type, encrypted: Data) throws -> T {
         let box = try ChaChaPoly.SealedBox(combined: encrypted)
         let data = try ChaChaPoly.open(box, using: key)
-        
+
         let decoder = JSONDecoder()
         return try decoder.decode(type, from: data)
     }

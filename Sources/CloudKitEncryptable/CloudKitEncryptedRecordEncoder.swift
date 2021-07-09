@@ -6,9 +6,9 @@
 //  Copyright © 2020 Guilherme Rambo. All rights reserved.
 //
 
-import Foundation
 import CloudKit
 import CryptoKit
+import Foundation
 
 public enum CloudKitEncryptedRecordEncodingError: Error {
     case unsupportedValueForKey(String)
@@ -20,10 +20,10 @@ public enum CloudKitEncryptedRecordEncodingError: Error {
         switch self {
         case .unsupportedValueForKey(let key):
             return """
-                   The value of key \(key) is not supported. Only values that can be converted to
-                   CKRecordValue are supported. Check the CloudKit documentation to see which types
-                   can be used.
-                   """
+                The value of key \(key) is not supported. Only values that can be converted to
+                CKRecordValue are supported. Check the CloudKit documentation to see which types
+                can be used.
+                """
         case .systemFieldsDecode(let info):
             return "Failed to process \(_CKSystemFieldsKeyName): \(info)"
         case .referencesNotSupported(let key):
@@ -42,7 +42,9 @@ public class CloudKitEncryptedRecordEncoder {
         let type = recordTypeName(for: value)
         let name = recordName(for: value)
 
-        let encoder = _CloudKitEncryptedRecordEncoder(recordTypeName: type, zoneID: zoneID, recordName: name, key: key, encryptedProperties: T.encryptedProperties)
+        let encoder = _CloudKitEncryptedRecordEncoder(
+            recordTypeName: type, zoneID: zoneID, recordName: name, key: key,
+            encryptedProperties: T.encryptedProperties)
 
         try value.encode(to: encoder)
 
@@ -78,7 +80,10 @@ final class _CloudKitEncryptedRecordEncoder {
     let key: SymmetricKey
     let encryptedProperties: [CodingKey]
 
-    init(recordTypeName: String, zoneID: CKRecordZone.ID?, recordName: String, key: SymmetricKey, encryptedProperties: [CodingKey]) {
+    init(
+        recordTypeName: String, zoneID: CKRecordZone.ID?, recordName: String, key: SymmetricKey,
+        encryptedProperties: [CodingKey]
+    ) {
         self.recordTypeName = recordTypeName
         self.zoneID = zoneID
         self.recordName = recordName
@@ -88,7 +93,7 @@ final class _CloudKitEncryptedRecordEncoder {
 
     var codingPath: [CodingKey] = []
 
-    var userInfo: [CodingUserInfoKey : Any] = [:]
+    var userInfo: [CodingUserInfoKey: Any] = [:]
 
     fileprivate var container: CloudKitRecordEncodingContainer?
 }
@@ -97,7 +102,10 @@ extension _CloudKitEncryptedRecordEncoder: Encoder {
     var record: CKRecord {
         if let existingRecord = container?.record { return existingRecord }
 
-        let zid = zoneID ?? CKRecordZone.ID(zoneName: CKRecordZone.ID.defaultZoneName, ownerName: CKCurrentUserDefaultName)
+        let zid =
+            zoneID
+            ?? CKRecordZone.ID(
+                zoneName: CKRecordZone.ID.defaultZoneName, ownerName: CKCurrentUserDefaultName)
         let rid = CKRecord.ID(recordName: recordName, zoneID: zid)
 
         return CKRecord(recordType: recordTypeName, recordID: rid)
@@ -107,16 +115,18 @@ extension _CloudKitEncryptedRecordEncoder: Encoder {
         precondition(self.container == nil)
     }
 
-    func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
+    func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key>
+    where Key: CodingKey {
         assertCanCreateContainer()
 
-        let container = KeyedContainer<Key>(recordTypeName: self.recordTypeName,
-                                            zoneID: self.zoneID,
-                                            recordName: self.recordName,
-                                            codingPath: self.codingPath,
-                                            userInfo: self.userInfo,
-                                            key: key,
-                                            encryptedProperties: encryptedProperties)
+        let container = KeyedContainer<Key>(
+            recordTypeName: self.recordTypeName,
+            zoneID: self.zoneID,
+            recordName: self.recordName,
+            codingPath: self.codingPath,
+            userInfo: self.userInfo,
+            key: key,
+            encryptedProperties: encryptedProperties)
         self.container = container
 
         return KeyedEncodingContainer(container)
@@ -144,14 +154,15 @@ extension _CloudKitEncryptedRecordEncoder {
 
         fileprivate var storage: [String: CKRecordValue] = [:]
 
-        init(recordTypeName: String,
-             zoneID: CKRecordZone.ID?,
-             recordName: String,
-             codingPath: [CodingKey],
-             userInfo: [CodingUserInfoKey : Any],
-             key: SymmetricKey,
-             encryptedProperties: [CodingKey])
-        {
+        init(
+            recordTypeName: String,
+            zoneID: CKRecordZone.ID?,
+            recordName: String,
+            codingPath: [CodingKey],
+            userInfo: [CodingUserInfoKey: Any],
+            key: SymmetricKey,
+            encryptedProperties: [CodingKey]
+        ) {
             self.recordTypeName = recordTypeName
             self.zoneID = zoneID
             self.recordName = recordName
@@ -168,17 +179,18 @@ extension _CloudKitEncryptedRecordEncoder.KeyedContainer: KeyedEncodingContainer
         storage[key.stringValue] = nil
     }
 
-    func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
+    func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
         guard key.stringValue != _CKSystemFieldsKeyName else {
             guard let systemFields = value as? Data else {
-                throw CloudKitEncryptedRecordEncodingError.systemFieldsDecode("\(_CKSystemFieldsKeyName) property must be of type Data")
+                throw CloudKitEncryptedRecordEncodingError.systemFieldsDecode(
+                    "\(_CKSystemFieldsKeyName) property must be of type Data")
             }
 
             try prepareMetaRecord(with: systemFields)
 
             return
         }
-        
+
         guard !(value is CustomCloudKitEncodable) else {
             return
         }
@@ -186,7 +198,8 @@ extension _CloudKitEncryptedRecordEncoder.KeyedContainer: KeyedEncodingContainer
         storage[key.stringValue] = try produceCloudKitValue(for: value, withKey: key)
     }
 
-    private func produceCloudKitValue<T>(for value: T, withKey key: Key) throws -> CKRecordValue where T : Encodable {
+    private func produceCloudKitValue<T>(for value: T, withKey key: Key) throws -> CKRecordValue
+    where T: Encodable {
         if encryptedProperties.contains(where: { $0.stringValue == key.stringValue }) {
             return try encryptor.encrypt(value) as CKRecordValue
         } else if let urlValue = value as? URL {
@@ -227,7 +240,9 @@ extension _CloudKitEncryptedRecordEncoder.KeyedContainer: KeyedEncodingContainer
         fatalError("Not implemented")
     }
 
-    func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
+    func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key)
+        -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey
+    {
         fatalError("Not implemented")
     }
 
@@ -243,7 +258,10 @@ extension _CloudKitEncryptedRecordEncoder.KeyedContainer: KeyedEncodingContainer
 extension _CloudKitEncryptedRecordEncoder.KeyedContainer: CloudKitRecordEncodingContainer {
 
     var recordID: CKRecord.ID {
-        let zid = zoneID ?? CKRecordZone.ID(zoneName: CKRecordZone.ID.defaultZoneName, ownerName: CKCurrentUserDefaultName)
+        let zid =
+            zoneID
+            ?? CKRecordZone.ID(
+                zoneName: CKRecordZone.ID.defaultZoneName, ownerName: CKCurrentUserDefaultName)
         return CKRecord.ID(recordName: recordName, zoneID: zid)
     }
 

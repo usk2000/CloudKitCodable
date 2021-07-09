@@ -6,15 +6,19 @@
 //  Copyright © 2020 Guilherme Rambo. All rights reserved.
 //
 
-import Foundation
 import CloudKit
 import CryptoKit
+import Foundation
 
 final public class CloudKitEncryptedRecordDecoder {
     private let key: SymmetricKey
-    
-    public func decode<T>(_ type: T.Type, from record: CKRecord, keyOverrides: [String: Any] = [:]) throws -> T where T : CloudKitEncryptable {
-        let decoder = _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: T.encryptedProperties, keyOverrides: keyOverrides)
+
+    public func decode<T>(_ type: T.Type, from record: CKRecord, keyOverrides: [String: Any] = [:])
+        throws -> T where T: CloudKitEncryptable
+    {
+        let decoder = _CloudKitEncryptedRecordDecoder(
+            record: record, key: key, encryptedProperties: T.encryptedProperties,
+            keyOverrides: keyOverrides)
         return try T(from: decoder)
     }
 
@@ -25,18 +29,21 @@ final public class CloudKitEncryptedRecordDecoder {
 
 final class _CloudKitEncryptedRecordDecoder {
     private let key: SymmetricKey
-    
+
     var codingPath: [CodingKey] = []
 
-    var userInfo: [CodingUserInfoKey : Any] = [:]
-    
+    var userInfo: [CodingUserInfoKey: Any] = [:]
+
     let encryptedProperties: [CodingKey]
 
     var container: CloudKitRecordDecodingContainer?
     fileprivate var record: CKRecord
     fileprivate let keyOverrides: [String: Any]
 
-    init(record: CKRecord, key: SymmetricKey, encryptedProperties: [CodingKey], keyOverrides: [String: Any]) {
+    init(
+        record: CKRecord, key: SymmetricKey, encryptedProperties: [CodingKey],
+        keyOverrides: [String: Any]
+    ) {
         self.record = record
         self.key = key
         self.encryptedProperties = encryptedProperties
@@ -49,10 +56,13 @@ extension _CloudKitEncryptedRecordDecoder: Decoder {
         precondition(self.container == nil)
     }
 
-    func container<Key>(keyedBy type: Key.Type) -> KeyedDecodingContainer<Key> where Key : CodingKey {
+    func container<Key>(keyedBy type: Key.Type) -> KeyedDecodingContainer<Key>
+    where Key: CodingKey {
         assertCanCreateContainer()
 
-        let container = KeyedContainer<Key>(record: self.record, codingPath: self.codingPath, userInfo: self.userInfo, key: key, encryptedProperties: encryptedProperties, keyOverrides: keyOverrides)
+        let container = KeyedContainer<Key>(
+            record: self.record, codingPath: self.codingPath, userInfo: self.userInfo, key: key,
+            encryptedProperties: encryptedProperties, keyOverrides: keyOverrides)
         self.container = container
 
         return KeyedDecodingContainer(container)
@@ -85,7 +95,10 @@ extension _CloudKitEncryptedRecordDecoder {
             return self.codingPath + [key]
         }
 
-        init(record: CKRecord, codingPath: [CodingKey], userInfo: [CodingUserInfoKey : Any], key: SymmetricKey, encryptedProperties: [CodingKey], keyOverrides: [String: Any]) {
+        init(
+            record: CKRecord, codingPath: [CodingKey], userInfo: [CodingUserInfoKey: Any],
+            key: SymmetricKey, encryptedProperties: [CodingKey], keyOverrides: [String: Any]
+        ) {
             self.codingPath = codingPath
             self.userInfo = userInfo
             self.record = record
@@ -97,7 +110,8 @@ extension _CloudKitEncryptedRecordDecoder {
 
         func checkCanDecodeValue(forKey key: Key) throws {
             guard self.contains(key) else {
-                let context = DecodingError.Context(codingPath: self.codingPath, debugDescription: "key not found: \(key)")
+                let context = DecodingError.Context(
+                    codingPath: self.codingPath, debugDescription: "key not found: \(key)")
                 throw DecodingError.keyNotFound(key, context)
             }
         }
@@ -129,15 +143,18 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
         }
     }
 
-    func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
+    func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T: Decodable {
         try checkCanDecodeValue(forKey: key)
-        
+
         if let override = keyOverrides[key.stringValue] {
             guard let override = override as? T else {
-                let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Override provided for key \(key) does not match provided type")
+                let context = DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription:
+                        "Override provided for key \(key) does not match provided type")
                 throw DecodingError.typeMismatch(type, context)
             }
-            
+
             return override
         }
 
@@ -148,17 +165,19 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
         if key.stringValue == _CKIdentifierKeyName {
             return record.recordID.recordName as! T
         }
-        
+
         // Decode encrypted properties
         if encryptedProperties.contains(where: { $0.stringValue == key.stringValue }) {
             guard let data = record[key.stringValue] as? Data else {
-                let context = DecodingError.Context(codingPath: codingPath, debugDescription: "CKRecordValue was marked encrypted but wasn't of type Data")
+                let context = DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "CKRecordValue was marked encrypted but wasn't of type Data")
                 throw DecodingError.typeMismatch(type, context)
             }
-            
+
             return try encryptor.decrypt(type, encrypted: data)
         }
-        
+
         // Bools are encoded as Int64 in CloudKit
         if type == Bool.self {
             return try decodeBool(forKey: key) as! T
@@ -170,7 +189,10 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
         }
 
         guard let value = record[key.stringValue] as? T else {
-            let context = DecodingError.Context(codingPath: codingPath, debugDescription: "CKRecordValue couldn't be converted to \(String(describing: type))'")
+            let context = DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription:
+                    "CKRecordValue couldn't be converted to \(String(describing: type))'")
             throw DecodingError.typeMismatch(type, context)
         }
 
@@ -183,12 +205,15 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
         }
 
         guard let str = record[key.stringValue] as? String else {
-            let context = DecodingError.Context(codingPath: codingPath, debugDescription: "URL should have been encoded as String in CKRecord")
+            let context = DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "URL should have been encoded as String in CKRecord")
             throw DecodingError.typeMismatch(URL.self, context)
         }
 
         guard let url = URL(string: str) else {
-            let context = DecodingError.Context(codingPath: codingPath, debugDescription: "The string \(str) is not a valid URL")
+            let context = DecodingError.Context(
+                codingPath: codingPath, debugDescription: "The string \(str) is not a valid URL")
             throw DecodingError.typeMismatch(URL.self, context)
         }
 
@@ -201,7 +226,9 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
 
     private func decodeBool(forKey key: Key) throws -> Bool {
         guard let intValue = record[key.stringValue] as? Int64 else {
-            let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Bool should have been encoded as Int64 in CKRecord")
+            let context = DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Bool should have been encoded as Int64 in CKRecord")
             throw DecodingError.typeMismatch(Bool.self, context)
         }
 
@@ -220,16 +247,22 @@ extension _CloudKitEncryptedRecordDecoder.KeyedContainer: KeyedDecodingContainer
         fatalError("Not implemented")
     }
 
-    func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
+    func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws
+        -> KeyedDecodingContainer<NestedKey> where NestedKey: CodingKey
+    {
         fatalError("Not implemented")
     }
 
     func superDecoder() throws -> Decoder {
-        return _CloudKitEncryptedRecordDecoder(record: record, key: key, encryptedProperties: encryptedProperties, keyOverrides: keyOverrides)
+        return _CloudKitEncryptedRecordDecoder(
+            record: record, key: key, encryptedProperties: encryptedProperties,
+            keyOverrides: keyOverrides)
     }
 
     func superDecoder(forKey key: Key) throws -> Decoder {
-        let decoder = _CloudKitEncryptedRecordDecoder(record: self.record, key: self.key, encryptedProperties: encryptedProperties, keyOverrides: keyOverrides)
+        let decoder = _CloudKitEncryptedRecordDecoder(
+            record: self.record, key: self.key, encryptedProperties: encryptedProperties,
+            keyOverrides: keyOverrides)
         decoder.codingPath = [key]
 
         return decoder
