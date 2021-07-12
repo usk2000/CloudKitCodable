@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 @testable import CloudKitCodable
 
 struct Journal: Equatable {
@@ -19,18 +20,18 @@ extension Journal: CloudKitEncryptable {
     static var encryptedProperties: [CodingKey] {
         return [
             Journal.CodingKeys.text,
-            Journal.CodingKeys.owner
+            Journal.CodingKeys.owner,
         ]
     }
-    
+
     var cloudKitIdentifier: String {
         return id
     }
-    
+
     var cloudKitSystemFields: Data? {
         return nil
     }
-    
+
     static var cloudKitRecordType: String {
         return "Journal"
     }

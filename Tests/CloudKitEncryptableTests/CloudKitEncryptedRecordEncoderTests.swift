@@ -6,9 +6,10 @@
 //  Copyright © 2020 Guilherme Rambo. All rights reserved.
 //
 
-import XCTest
 import CloudKit
 import CryptoKit
+import XCTest
+
 @testable import CloudKitCodable
 
 class CloudKitEncryptedRecordEncoderTests: XCTestCase {
@@ -23,7 +24,8 @@ class CloudKitEncryptedRecordEncoderTests: XCTestCase {
     func testCustomZoneIDEncoding() throws {
         let zoneID = CKRecordZone.ID(zoneName: "ABCDE", ownerName: CKCurrentUserDefaultName)
 
-        let record = try CloudKitEncryptedRecordEncoder(key: key, zoneID: zoneID).encode(Person.rambo)
+        let record = try CloudKitEncryptedRecordEncoder(key: key, zoneID: zoneID).encode(
+            Person.rambo)
         _validateEncryptedRamboFields(in: record, withKey: key)
 
         XCTAssert(record.recordID.zoneID == zoneID)
@@ -46,17 +48,18 @@ class CloudKitEncryptedRecordEncoderTests: XCTestCase {
     func testCustomRecordIdentifierEncoding() throws {
         let zoneID = CKRecordZone.ID(zoneName: "ABCDE", ownerName: CKCurrentUserDefaultName)
 
-        let record = try CloudKitEncryptedRecordEncoder(key: key, zoneID: zoneID).encode(PersonWithCustomIdentifier.rambo)
+        let record = try CloudKitEncryptedRecordEncoder(key: key, zoneID: zoneID).encode(
+            PersonWithCustomIdentifier.rambo)
 
         XCTAssert(record.recordID.zoneID == zoneID)
         XCTAssert(record.recordID.recordName == "MY-ID")
     }
-    
+
     func testEncoderSkipsReferences() throws {
         let stuff = Stuff(title: "Test", journal: testJournal)
-        
+
         let record = try CloudKitEncryptedRecordEncoder(key: key).encode(stuff)
-        
+
         XCTAssertNil(record["journal"])
         XCTAssertNotNil(record["title"])
     }

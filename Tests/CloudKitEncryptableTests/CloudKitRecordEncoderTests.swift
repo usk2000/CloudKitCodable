@@ -6,8 +6,9 @@
 //  Copyright © 2018 Guilherme Rambo. All rights reserved.
 //
 
-import XCTest
 import CloudKit
+import XCTest
+
 @testable import CloudKitCodable
 
 final class CloudKitRecordEncoderTests: XCTestCase {
@@ -44,10 +45,11 @@ final class CloudKitRecordEncoderTests: XCTestCase {
     func testCustomRecordIdentifierEncoding() throws {
         let zoneID = CKRecordZone.ID(zoneName: "ABCDE", ownerName: CKCurrentUserDefaultName)
 
-        let record = try CloudKitRecordEncoder(zoneID: zoneID).encode(PersonWithCustomIdentifier.rambo)
+        let record = try CloudKitRecordEncoder(zoneID: zoneID).encode(
+            PersonWithCustomIdentifier.rambo)
 
         XCTAssert(record.recordID.zoneID == zoneID)
         XCTAssert(record.recordID.recordName == "MY-ID")
     }
-    
+
 }

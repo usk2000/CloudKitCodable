@@ -6,15 +6,19 @@
 //  Copyright © 2018 Guilherme Rambo. All rights reserved.
 //
 
-import XCTest
 import CloudKit
+import XCTest
+
 @testable import CloudKitCodable
 
 final class CloudKitRecordDecoderTests: XCTestCase {
 
     private func _validateDecodedPerson(_ person: Person) {
         XCTAssertEqual(person, Person.rambo)
-        XCTAssertNotNil(person.cloudKitSystemFields, "\(_CKSystemFieldsKeyName) should bet set for a value conforming to CloudKitRecordRepresentable decoded from an existing CKRecord")
+        XCTAssertNotNil(
+            person.cloudKitSystemFields,
+            "\(_CKSystemFieldsKeyName) should bet set for a value conforming to CloudKitRecordRepresentable decoded from an existing CKRecord"
+        )
     }
 
     func testComplexPersonStructDecoding() throws {
@@ -44,12 +48,14 @@ final class CloudKitRecordDecoderTests: XCTestCase {
     func testCustomRecordIdentifierRoundTrip() throws {
         let zoneID = CKRecordZone.ID(zoneName: "ABCDE", ownerName: CKCurrentUserDefaultName)
 
-        let record = try CloudKitRecordEncoder(zoneID: zoneID).encode(PersonWithCustomIdentifier.rambo)
+        let record = try CloudKitRecordEncoder(zoneID: zoneID).encode(
+            PersonWithCustomIdentifier.rambo)
 
         XCTAssert(record.recordID.zoneID == zoneID)
         XCTAssert(record.recordID.recordName == "MY-ID")
 
-        let samePersonDecoded = try CloudKitRecordDecoder().decode(PersonWithCustomIdentifier.self, from: record)
+        let samePersonDecoded = try CloudKitRecordDecoder().decode(
+            PersonWithCustomIdentifier.self, from: record)
         XCTAssert(samePersonDecoded.cloudKitIdentifier == "MY-ID")
     }
 }
